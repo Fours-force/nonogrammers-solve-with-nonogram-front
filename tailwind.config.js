@@ -2,6 +2,7 @@
 module.exports = {
     content: [
         "./src/*.{vue,js}",
+        "./src/**/*.{vue,js}",
         "./index.html",
         "./node_modules/flowbite/**/*.js"
     ],

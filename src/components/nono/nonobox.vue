@@ -10,7 +10,7 @@
                 </div>
 
                 <article id="NonoListContainer"
-                         class="grid grid-cols-1 gap-y-2 gap-x-2 lg:gap-y-1 lg:gap-x-1 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-3 xl:gap-y-2 mb-5">
+                         class="grid grid-cols-1 mb-5 gap-y-2 gap-x-2 lg:gap-y-1 lg:gap-x-1 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-3 xl:gap-y-2">
                     <div v-for="(nono,nonoIndex) in nonoList" :key="`${nonoIndex}`"
                         >
                         <nonocard :initial-nonoId="nono.nonoId"
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-    import {api} from "@/assets/js/common";
+    import {api} from "@/js/common.js";
     import {computed, onMounted, ref} from "vue";
     import nonocard from "./nonocard.vue";
     

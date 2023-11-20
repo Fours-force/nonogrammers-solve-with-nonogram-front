@@ -27,7 +27,7 @@ router.beforeEach(async (to) => { // to: 탐색 될 경로 위치 객체, from: 
     const { user, returnUrl } = storeToRefs(authStore);
     
     // 로그인이 필요하지 않은 페이지 목록
-    const publicPages = ['/', '/login', '/join', '/forgot-password', '/reset-password'];
+    const publicPages = import.meta.env.VITE_PUBLIC_PAGES.split(',');
     const authRequired = !publicPages.includes(to.path);
 
     // 로그인이 필요한 페이지에 접근하려고 할 때, 로그인이 되어있지 않으면 로그인 페이지로 이동

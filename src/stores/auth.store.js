@@ -5,7 +5,7 @@ import router from '@/router/index.js'
 
 const loginUrl = import.meta.env.VITE_SERVER_URL + import.meta.env.VITE_LOGIN_API_PATH;
 
-function setUser(user, response){
+async function setUser(user, response){
     user.value = {
         nickname: response.data.nickname,
         profile: response.data.profileImg,
@@ -40,7 +40,8 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await axios.post(loginUrl, {email, password}, { 
                 headers: {'X-Requested-With': 'XMLHttpRequest'}});
 
-            setUser(user, response);
+            await setUser(user, response);
+            
             router.push(returnUrl.value != null ? returnUrl.value : '/');
 
         } catch (error) { handleLoginError(error); }

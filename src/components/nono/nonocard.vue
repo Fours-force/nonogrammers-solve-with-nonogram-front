@@ -22,7 +22,6 @@ import {computed, ref} from "vue";
     const getNonoDotRouterUrl = computed(() =>{
       return `/nonodots/${userId}/${nonoId.value}/${baekjoonId}`;
     })
-
 </script>
 
 <style scoped>

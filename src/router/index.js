@@ -7,7 +7,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
-    { path: "/nonobox", component: nonobox }
+    { path: "/nonobox/", component: nonobox },
+    { path: "/nonobox/:level", component: nonobox }
   ],
 });
 

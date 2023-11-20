@@ -74,7 +74,7 @@
                                 </a>
                             </div>
                             <div class="flex justify-center w-auto h-auto p-1 hover:text-nav-navy active:text-main-skyblue active:rounded-md">
-                                <a href="#" class="block w-auto h-full text-2xl">
+                                <a href="/post" class="block w-auto h-full text-2xl">
                                     <span id="community" class="">COMMUNITY</span>
                                 </a>
                             </div>

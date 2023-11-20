@@ -14,8 +14,12 @@ import { useAuthStore } from '@/stores/auth.store'
 import Community from '@/components/community/community.vue'
 import Detail from '@/components/community/detail.vue'
 import Write from '@/components/community/write.vue'
+
+// NONO
 import nonodots from "../components/nono/nonodots.vue";
 import nonobox from "../components/nono/nonobox.vue"
+
+// MYPAGE
 import MyNoNoView from '@/pages/MyNoNo.vue'
 import MyPageView from '@/pages/MyPage.vue'
 import ManageView from '@/components/mypage/Manage.vue'

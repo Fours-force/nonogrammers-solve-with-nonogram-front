@@ -1,6 +1,7 @@
 import { storeToRefs } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router'
 
+// USER
 import Home from '@/pages/Home.vue'
 import Join from '@/pages/Join.vue'
 import Login from '@/pages/Login.vue'
@@ -9,6 +10,16 @@ import ResetPassword from '@/pages/ResetPassword.vue'
 
 import { useAuthStore } from '@/stores/auth.store'
 
+// POST
+import Community from '@/components/community/community.vue'
+import Detail from '@/components/community/detail.vue'
+import Write from '@/components/community/write.vue'
+import nonodots from "../components/nono/nonodots.vue";
+import nonobox from "../components/nono/nonobox.vue"
+import MyNoNoView from '@/pages/MyNoNo.vue'
+import MyPageView from '@/pages/MyPage.vue'
+import ManageView from '@/components/mypage/Manage.vue'
+
 const router = createRouter({
     history: createWebHistory(),
     routes : [
@@ -16,7 +27,37 @@ const router = createRouter({
         { path: '/join', component: Join},
         { path: '/login', component: Login},
         { path: '/forgot-password', component: ForgotPassword},
-        { path: '/reset-password', component: ResetPassword}
+        { path: '/reset-password', component: ResetPassword},
+        { path: '/post', component: Community },
+        { path: '/post/notice', component: Community },
+        { path: '/post/free', component: Community },
+        { path: '/post/qa', component: Community },
+        { path: '/post/nono', component: Community },
+        { path: '/post/all', component: Community },
+        { path: '/search', component: Community },
+        { path: '/detail', component: Detail },
+        { path: '/detailComment', component: Detail },
+        { path: '/deleteComment', component: Detail },
+        { path: '/editComment', component: Detail },
+        { path: '/post/write', component: Write },
+        { path: '/postDelete', component: Community },
+        { path: '/mypage/:id',
+            component: MyPageView,
+            children : [
+                {
+                    path : "",
+                    component : ManageView
+                },
+                {
+                    path : "/nono/:id/:nonoId",
+                    component : MyNoNoView,
+                }
+            ]},
+        { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
+        { path: "/nonobox", component: nonobox },
+        // { path: '/nono/:id/:isSolved', component:  MyIngNoNoView},
+        // { path: '/nono/:id/:isSolved', component:  MySolvedNoNoView},
+        // { path: '/post/:id', component:  MyPostView},
     ]
 });
 

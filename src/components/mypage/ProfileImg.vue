@@ -86,7 +86,7 @@ async function changeProfileImg() {
 			},
 		})
 		.then((response) => {
-            props.user.profileImgUrl.value = response.data.profileImgUrl;
+            props.user.profileImgUrl.value = "profile" + response.data.profileImgUrl;
 		})
 		.catch((error) => {
             alert(error.response.data);

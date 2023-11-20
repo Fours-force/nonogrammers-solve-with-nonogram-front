@@ -29,6 +29,7 @@
         }
     </style>
 <template>
+<Header></Header>
 <body class="container bg-back">
 
 <div class="container flex flex-col max-w-screen-xl mx-auto mt-5 sm:px-6 lg:px-8">
@@ -155,8 +156,12 @@
 </template>
 <script>
 import axios from 'axios';
+import Header from '@/components/Header.vue'
 
 export default {
+    components: {
+        Header
+  },
     data() {
         return {
             postFormData: {

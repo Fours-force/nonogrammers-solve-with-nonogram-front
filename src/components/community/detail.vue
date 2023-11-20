@@ -10,6 +10,7 @@
         }
 </style>
 <template>
+<Header></Header>
 <body class="container">
     <section>
         <div class="bg-back font-brr">
@@ -187,8 +188,12 @@
 </template>
 <script>
 import axios from 'axios';
+import Header from '@/components/Header.vue'
 
 export default {
+    components: {
+        Header
+  },
     data() {
         return {
             postDTO: {},

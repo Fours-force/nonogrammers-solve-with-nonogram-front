@@ -1,11 +1,10 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
 </script>
 
 <template>
 	<nav>
     <router-link to="/nonodots">nonodots</router-link> |
+    <router-link to="/nonobox">nonobox</router-link>
   	</nav>
   <br />
   <router-view />

@@ -77,8 +77,7 @@ async function changeProfileImg() {
 		return false;
 	}
 
-    console.log("🚀 ~ file: ProfileImg.vue:80 ~ changeProfileImg ~ props.user.userId:", props.user.userId)
-	// const userId = ref(8);
+    console.log("🚀 ~ file: ProfileImg.vue:80 ~ changeProfileImg ~ props.user.userId:", props.user.userId);
 	await axios
 		.post("http://localhost:8089/user/profileimg/3", formData, {
 			headers: {

@@ -31,7 +31,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="/nono/3/1">
+				<router-link to="`/nono/${user.userId}/${user.isSolved}`">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -42,7 +42,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="/post/3">
+				<router-link to="`/post/${user.userId}`">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -54,4 +54,14 @@
 	</div>
 </template>
 <script setup>
+import { ref, computed, onMounted } from "vue";
+import axios from "axios";
+
+const props = defineProps({
+	user: {
+		type: Object,
+		required: true,
+	},
+});
+
 </script>

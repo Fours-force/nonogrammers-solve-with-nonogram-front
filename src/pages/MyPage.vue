@@ -3,11 +3,9 @@
 		class="flex justify-center min-h-screen h-[calc(100%-1rem)] w-screen px-1 pt-10 sm:px-6 lg:px-8 mx-auto sm:px-6 lg:px-8 gap-x-2 bg-back"
 	>
 		<!-- 좌측 nav -->
-		<MyPageNavAPI></MyPageNavAPI>
-		<!-- <th:block th:replace="~{./my-activity-nav.html :: myactivitynavFragment}"></th:block> -->
+		<MyPageNavAPI :user="user"></MyPageNavAPI>
 		<div class="w-6/12 mt-2 max:w-8/12 font-brr min-w-min">
             <router-view :user="user"/>
-            <!-- <Manage :user="user"></Manage> -->
 		</div>
 	</div>
 </template>
@@ -23,6 +21,7 @@ const user = {
 	userId: ref(currentRouter.params.id),
 	nickName: ref("테스트닉넴"),
 	profileImgUrl: ref(""),
+    nonoList: ref(Array),
 	changedAt: ref("2023-11-20"),
 };
 

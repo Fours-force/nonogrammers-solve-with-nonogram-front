@@ -1,9 +1,9 @@
 <template>
-    <div id="wapper" class="mx-auto max-w-screen-xl h-auto min-h-full mb-5">
-        <div class="w-full mb-4 test flex md:flex-col lg:flex-row h-6/6">
+    <div id="wapper" class="h-auto max-w-screen-xl min-h-full mx-auto mb-5">
+        <div class="flex w-full mb-4 test md:flex-col lg:flex-row h-6/6">
             <div class="font-super256 min-w-max movebtn eightbit-btn" @click="goback">BACK</div>
             <div class="h-6/6">
-                <div class="w-full mt-4 bg-gray-50 rounded-full dark:bg-gray-700">
+                <div class="w-full mt-4 rounded-full bg-gray-50 dark:bg-gray-700">
                     <div id="progressBar"
                          class="font-super256 text-white text-2xl font-medium bg-blue-600 text-center p-0.5 leading-none rounded-full memberCountCon"
                          :style="{width: progress}">

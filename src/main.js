@@ -1,6 +1,5 @@
 import './assets/css/dist/output.css'
 import './assets/css/input.css'
-import './assets/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

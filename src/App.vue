@@ -17,7 +17,7 @@
   <br />
   <router-view />
 </template>
-
+<!-- 
 <style scoped>
-
 </style>
+

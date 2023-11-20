@@ -4,25 +4,13 @@ import TheWelcome from "./components/TheWelcome.vue";
 </script>
 
 <template>
-	<header>
-		<img
-			alt="Vue logo"
-			class="logo"
-			src="./assets/logo.svg"
-			width="125"
-			height="125"
-		/>
-
-		<div class="wrapper">
-			<HelloWorld msg="You did it!" />
-		</div>
-	</header>
-
-	<main>
-		<TheWelcome />
-	</main>
+	<div>
+	<!-- <router-link to="/">home</router-link>
+    <router-link to="/post">comm</router-link> -->
+  </div>
+  <router-view />
 </template>
-
+<!-- 
 <style scoped>
 header {
 	line-height: 1.5;
@@ -50,4 +38,31 @@ header {
 		flex-wrap: wrap;
 	}
 }
+</style> -->
+
+<style>
+#app {
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  display: flex;
+  color: #4700fb;
+  /* background-color: #96aabe; */
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  /* font-weight: bold; */
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+
 </style>
+

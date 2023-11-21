@@ -37,7 +37,7 @@ window.onload = function () {
 		class="grid grid-cols-1 gap-y-2 gap-x-2 lg:gap-y-1 lg:gap-x-1 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-3 xl:gap-y-2"
 	>
 		<!-- <th:block th:if="${isSolved eq 0}" th:each="nono : ${nonoList}"> -->
-            <!-- v-if="" -->
+		<!-- v-if="" -->
 		<div
 			v-for="userNono in user.nonoList.value"
 			class="p-6 mx-auto transition duration-200 bg-white border-4 rounded-lg w-6/6 h-60 border-nono-mypg-item-border hover:scale-105"

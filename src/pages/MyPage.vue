@@ -22,6 +22,7 @@ const user = {
 	nickName: ref("테스트닉넴"),
 	profileImgUrl: ref(""),
     nonoList: ref(Array),
+    postList: ref(Array),
 	changedAt: ref("2023-11-20"),
 };
 

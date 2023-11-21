@@ -12,8 +12,8 @@
 			<div class="justify-center hidden w-2/6 mr-2 md:flex">
 				<a href="#">
 					<!--mypage-계정관리로-->
+					<!-- th:src="@{${userPostVO.userDTO.profileImgUrl}}" -->
 					<img
-						th:src="@{${userPostVO.userDTO.profileImgUrl}}"
 						class="w-24 h-24 transition duration-200 border-2 rounded-full hover:scale-110 border-nono-mypg-item-border"
 						alt="프로필 이미지"
 					/>
@@ -23,7 +23,7 @@
 				<h1 class="text-2xl">
 					<span
 						class="text-3xl font-extrabold text-nono-mypg-item-border"
-						>"[[${userPostVO.userDTO.nickName}]]"</span
+						>""</span
 					>의 글
 				</h1>
 			</div>
@@ -195,4 +195,32 @@
 	</article>
 </template>
 <script setup>
+import axios from "axios"
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+
+const useRouter = useRoute();
+
+// const props = defineProps({
+// 	user: {
+// 		type: Object,
+// 		required: true,
+// 	},
+// });
+
+// console.log("🚀 ~ file: MyPost.vue:214 ~ getPostList ~ useRouter.params:", useRouter.params)
+function getPostList() {
+    axios
+        .get('http://localhost:8089/post/' + useRouter.params.id)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .then((error) => {
+            console.log(error);
+        });
+}
+
+onMounted(() => {
+    getPostList();
+})
 </script>

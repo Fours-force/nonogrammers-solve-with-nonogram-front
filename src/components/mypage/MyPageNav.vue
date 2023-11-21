@@ -11,7 +11,7 @@
 				</p>
 			</li>
 			<li>
-				<router-link to="/mypage/3">
+				<router-link :to="`/mypage/${props.user.userId.value}`">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -20,7 +20,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="/nono/3/2">
+				<router-link :to="`/nono/${props.user.userId.value}/2`">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -31,7 +31,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="`/nono/${user.userId}/${user.isSolved}`">
+				<router-link :to="`/nono/${props.user.userId.value}/1`" :user="user">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -42,7 +42,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="`/post/${user.userId}`">
+				<router-link :to='`/post/${user.userId.value}`' :user="user">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -63,5 +63,6 @@ const props = defineProps({
 		required: true,
 	},
 });
+// console.log(props.user.userId)
 
 </script>

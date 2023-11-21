@@ -74,4 +74,18 @@
 	</div>
 </template>
 <script setup>
+import axios, { Axios } from 'axios';
+import { onMounted } from 'vue';
+
+// async function getUserPost() {
+//     await axios
+//         .get("", {
+
+//         })
+// }
+
+// onMounted(() => {
+    
+// })
+
 </script>

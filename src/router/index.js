@@ -57,7 +57,7 @@ const router = createRouter({
                     component : MyNoNoView,
                 }
             ]},
-        { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
+        { path: "/nonodots/:userId/:nonoId/:baekjoonId", name: 'nonodots', component: nonodots},
         { path: "/nonobox", component: nonobox },
         // { path: '/nono/:id/:isSolved', component:  MyIngNoNoView},
         // { path: '/nono/:id/:isSolved', component:  MySolvedNoNoView},

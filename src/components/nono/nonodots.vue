@@ -69,23 +69,23 @@
         });
     }
     const getNono = (uId, nId, bId) => {
-      console.log("getNonodots start !!!");
-      console.log(`userId : ${uId}, nonoId : ${nId}, beakjoonId : ${bId}`)
-      api(`http://localhost:8089/nonodots/${uId}/${nId}/${bId}`,'Get','').then((result) => {
-        console.log(progress);
-        progress.value = result.progress;
-        nonoId.value = result.nonoId;
-        urlAry.value = result.urlAry;
-        totalRowList.value = result.totalRowList;
-        console.log(progress);
-        console.log(totalRowList);
-        setStyle();
-        loadSolvedDot();
-    }).catch((e) => {
-        console.log(e);
-    });
+        console.log("getNonodots start !!!");
+        console.log(`userId : ${uId}, nonoId : ${nId}, beakjoonId : ${bId}`)
+        api(`http://localhost:8089/nonodots/${uId}/${nId}/${bId}`,'Get','').then((result) => {
+            console.log(progress);
+            progress.value = result.progress;
+            nonoId.value = result.nonoId;
+            urlAry.value = result.urlAry;
+            totalRowList.value = result.totalRowList;
+            console.log(progress);
+            console.log(totalRowList);
+            setStyle();
+            loadSolvedDot();
+        }).catch((e) => {
+            console.log(e);
+        });
     console.log("getNonodots end !!!");
-}
+    }
 
 const rowOnCheck = ref([]);
 const solvingRow = ref('0');
@@ -102,32 +102,6 @@ const rowMouseOut = (index) => {
     totalRowList.value[index].onRow = 'defaultRowColor';
 }
 
-onMounted(() => {
-    console.log('onMounted!');
-    getNono();
-    getSolvingRow();
-    console.log("끝");
-})
-// watch(progress, (newValue, oldValue) => {
-//   console.log(`Count changed from ${oldValue} to ${newValue}`);
-//   if (newValue === 100) {
-//     console.log('다 푼 문제로~');
-//   }
-// });
-
-const loadSolvedDot = () => {
-    console.log("loadSolvedDot start!");
-    api(`http://localhost:8089/api/selectSolvedDotId/${userId}/${routeNonoId}`, 'Get', '').then((result) => {
-        console.log(result);
-        let col = 0;
-        let row = 0;
-        for (let i = 0; i < result.length; i++) {
-            col = Math.floor((result[i] - 1) / 32); //소수점 제거
-            row = (result[i] - 1) % 32;
-            totalRowList.value[col][row].isSolved = 'solved';
-            totalRowList.value[col][row].onRow = 'defaultRowColor';
-        }
-
     onMounted(() => {
         console.log('onMounted!');
         getNono(userId.value, routeNonoId.value, baekjoonId.value);
@@ -140,7 +114,7 @@ const loadSolvedDot = () => {
         (newValue, oldValue) => {
             console.log(`Count changed from ${oldValue} to ${newValue}`);
             if (newValue === 100) {
-               console.log('다 푼 문제로~');
+                console.log('다 푼 문제로~');
             }
         },
         { immediate: true }
@@ -163,17 +137,17 @@ const loadSolvedDot = () => {
           console.log(e);
         });
 
-}
-const setStyle = () => {
-    console.log("setstyle start!")
-    for (let i = 0; i < totalRowList.value.length; i++) {
-        for (let j = 0; j < 32; j++) {
-            totalRowList.value[i][j].isSolved = ref('notsolved');
-
-        }
-        rowOnCheck[i] = { 'onRow': 'defaultRowColor' };
     }
-}
+    const setStyle = () => {
+        console.log("setstyle start!")
+        for (let i = 0; i < totalRowList.value.length; i++) {
+            for (let j = 0; j < 32; j++) {
+                totalRowList.value[i][j].isSolved = ref('notsolved');
+
+            }
+            rowOnCheck[i] = { 'onRow': 'defaultRowColor' };
+        }
+    }
 
 
 
@@ -212,8 +186,8 @@ const setStyle = () => {
       solvingRow.value = num+1;
       api(`http://localhost:8089/api/updateSolvingRow/${userId.value}/${routeNonoId.value}/${solvingRow.value}`,'GET','').then((result) =>{
         console.log("줄 업데이트 완료");
-    });
-}
+      });
+    }
 
     const getSolvingRow = () =>{
       console.log("getSolvingRow");
@@ -221,16 +195,16 @@ const setStyle = () => {
         console.log(result);
         solvingRow.value = result;
         console.log("줄 가져오기 완료");
-    });
-}
+      });
+    }
 
 
-const goToProblem = (num) => {
-    console.log("goToProblem");
-    console.log(num);
-    updateSolvingRow(num);
-    location.href = `https://www.acmicpc.net/problem/${urlAry.value[Number.parseInt(num)]}`;
-}
+    const goToProblem = (num) => {
+        console.log("goToProblem");
+        console.log(num);
+        updateSolvingRow(num);
+        location.href = `https://www.acmicpc.net/problem/${urlAry.value[Number.parseInt(num)]}`;
+        }
 
 
 

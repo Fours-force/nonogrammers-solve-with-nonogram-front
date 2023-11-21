@@ -23,6 +23,7 @@ import nonobox from "../components/nono/nonobox.vue"
 import MyNoNoView from '@/pages/MyNoNo.vue'
 import MyPageView from '@/pages/MyPage.vue'
 import ManageView from '@/components/mypage/Manage.vue'
+import MyPostView from '@/components/mypage/MyPost.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -45,7 +46,7 @@ const router = createRouter({
         { path: '/editComment', component: Detail },
         { path: '/post/write', component: Write },
         { path: '/postDelete', component: Community },
-        { path: '/mypage/:id',
+        { path: '/mypage/:nickName',
             component: MyPageView,
             children : [
                 {
@@ -55,19 +56,23 @@ const router = createRouter({
                 {
                     path : "/nono/:id/:nonoId",
                     component : MyNoNoView,
+                },
+                {
+                    path: '/post/:id',
+                    component:  MyPostView
                 }
             ]},
-        { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
+        { path: "/nonodots/:userId/:nonoId/:baekjoonId", name: 'nonodots', component: nonodots},
         { path: "/nonobox", component: nonobox },
-        // { path: '/nono/:id/:isSolved', component:  MyIngNoNoView},
-        // { path: '/nono/:id/:isSolved', component:  MySolvedNoNoView},
-        // { path: '/post/:id', component:  MyPostView},
+        { path: '/nono/detail/:id/:nonoId/:isSolved', component: nonodots},
+        // { path: '/nono/:id/:isSolved', component: nonobox},
+        { },
     ]
 });
 
 // 모든 라우터 이동 전에 실행
 router.beforeEach(async (to) => { // to: 탐색 될 경로 위치 객체, from: 탐색 전 현재 경로 위치 객체
-
+    console.log("beforeEach")
     const authStore = useAuthStore();
     const { user, returnUrl } = storeToRefs(authStore);
     

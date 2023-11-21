@@ -10,11 +10,7 @@
 
 <template>
     <nav>
-	<router-link to="/mypage/3">mypage</router-link>
     </nav>
     <br />
     <router-view />
 </template>
-<!-- 
-<style scoped>
-</style> -->

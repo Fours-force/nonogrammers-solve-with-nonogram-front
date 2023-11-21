@@ -23,30 +23,4 @@ const props = defineProps({
 		required: true,
 	},
 });
-// import axios from "axios";
-// import { onMounted, ref } from "vue";
-// import { useRoute } from "vue-router";
-
-// const currentRouter = useRoute();
-// const user = {
-// 	userId: ref(currentRouter.params.id),
-// 	nickName: ref("테스트닉넴"),
-// 	profileImgUrl: ref(""),
-// 	changedAt: ref("2023-11-20"),
-// };
-
-// onMounted(() => {
-// 	getUser();
-// });
-
-// async function getUser() {
-// 	await axios
-// 		.get("http://localhost:8089/user/" + user.nickName.value)
-// 		.then((response) => {
-// 			const data = response.data;
-// 			user.nickName.value = data.nickName;
-// 			user.userId.value = data.userId;
-// 			user.profileImgUrl.value = data.profileImgUrl;
-// 		});
-// }
 </script>

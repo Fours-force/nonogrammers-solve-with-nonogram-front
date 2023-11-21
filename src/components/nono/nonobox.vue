@@ -1,4 +1,5 @@
 <template>
+    <Header></Header>
     <body class="bg-back" >
         <div class="flex justify-center w-screen h-full max-w-screen-xl mx-auto sm:px-6 lg:px-8 gap-x-2 ">
             <div class="w-8/12 mt-2 max:w-full font-brr min-w-max">
@@ -27,6 +28,7 @@
     import {api} from "@/js/common.js";
     import {computed, onMounted, ref} from "vue";
     import nonocard from "./nonocard.vue";
+    import Header from "@/components/Header.vue";
     
     const props = defineProps({
       userId : Number,

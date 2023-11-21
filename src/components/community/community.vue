@@ -1,4 +1,5 @@
 <template>
+<Header></Header>
 <body class="container">
     <section>
         <div class="bg-back font-brr my-component">
@@ -58,7 +59,7 @@
                                         </div>
                                         <p class="px-4 mt-1 text-sm text-gray-900" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{post.content}}</p><!-- 내용 -->
                                         <div class="flex items-center">
-                                            <img :src="post.imgSrc" class="mt-1 ml-5 rounded-image" alt=""><!-- 프로필 이미지 -->
+                                            <img :src="'src/assets'+post.imgSrc" class="mt-1 ml-5 rounded-image" alt=""><!-- 프로필 이미지 -->
                                             <div class="ml-2">
                                                 <span class="text-xs">작성자 : {{post.nickName}}</span>
                                                 <p class="text-xs text-gray-500">{{post.createdAt}}</p>
@@ -153,8 +154,12 @@
 </style>
 <script>
 import axios from 'axios';
+import Header from '@/components/Header.vue'
 
 export default {
+    components: {
+        Header
+  },
     data() {
         return {
             posts: [],

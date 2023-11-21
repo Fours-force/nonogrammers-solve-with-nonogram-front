@@ -1,8 +1,8 @@
 <template>
-  <div class="w-6/6 p-6 mx-auto h-6/6 border-4 border-nono-mypg-item-border rounded-lg transition duration-200 hover:scale-105 bg-white">
+  <div class="p-6 mx-auto transition duration-200 bg-white border-4 rounded-lg w-6/6 h-6/6 border-nono-mypg-item-border hover:scale-105">
     <router-link v-bind:to="getNonoDotRouterUrl">
       <img :src="nonoImgUrl"
-           alt="" class="w-80 h-80 xl:h-56 xl:w-56 lg:h-72 lg:w-72 md:h-80 md:w-80 object-contain">
+           alt="" class="object-contain w-80 h-80 xl:h-56 xl:w-56 lg:h-72 lg:w-72 md:h-80 md:w-80">
     </router-link>
   </div>
 </template>

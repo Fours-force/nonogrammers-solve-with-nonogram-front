@@ -65,7 +65,7 @@
 								<div class="flex justify-stretch">
 									<input
 										type="text"
-										v-model="nickName"
+										v-model="props.user.nickName.value"
 										name="nickName"
 										id="nickName"
 										@change="inputObserve()"
@@ -113,29 +113,12 @@ const props = defineProps({
 	},
 });
 
-const nickName = ref("");
-//닉네임 변경하기
-const userId = ref(0);
 const changedNickName = ref("");
-nickName.value = "테스트닉넴";
-
-function getUser() {
-	axios
-		.get("http://localhost:8089/user/" + nickName.value)
-		.then((response) => {
-			// console.log("🚀 ~ file: showNickName.js:20 ~ .then ~ response:", response);
-			// console.log("🚀 ~ file: showNickName.js:22 ~ .then ~ data:", response.data.nickName);
-			const data = response.data;
-			nickName.value = data.nickName;
-			userId.value = data.userId;
-			// console.log("🚀 ~ file: mypage.js:27 ~ .then ~ data.userId:", data.userId)
-		});
-}
 
 function isDuplicatedNickName() {
 	axios
 		.post("http://localhost:8089/user/nickname/isduplicated", {
-			nickName: nickName.value.trim(),
+			nickName: props.user.nickName.value.trim(),
 		})
 		.then((success) => {
 			changedNickName.value = success.data;
@@ -154,9 +137,9 @@ function isDuplicatedNickName() {
 }
 
 function changeNickName() {
-	console.log(userId.value);
+	console.log(props.user.userId.value);
 	axios
-		.patch("http://localhost:8089/user/nickname/" + 3, {
+		.patch("http://localhost:8089/user/nickname/" + props.user.userId.value, {
 			nickName: changedNickName.value,
 		})
 		.then((response) => {

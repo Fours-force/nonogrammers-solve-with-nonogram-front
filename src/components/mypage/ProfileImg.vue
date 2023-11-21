@@ -54,19 +54,6 @@ const props = defineProps({
 // 프로필 사진 변경하기
 const profileImgUrl = ref("");
 
-// 이미지 경로를 받아오는 비동기 함수 (예를 들어 API 호출 등)
-// const fetchImageUrl = async () => {
-// 	// 이미지 경로를 받아오는 비동기 작업 수행
-// 	//const imageUrl = await someAsyncOperationToGetImageUrl();
-// 	// console.log(profileImgSrc);
-// 	// 받아온 이미지 경로를 상태에 저장
-// 	otherProjectImageUrl.value =
-// 		"933c4b8f-257e-416f-92ba-0176759c46fb_안뇽12.jpeg";
-// 	document.getElementById("profileImgPreView").src =
-//     baseUrl + otherProjectImageUrl.value;
-//     // "/Users/jasonmilian/Downloads/nonogrammers/src/main/resources/static/images/profile/8/ffda32e3-d050-41d1-9aab-33355c80158f_안뇽12.jpeg"
-// };
-
 async function changeProfileImg() {
 	const profileImgForm = document.querySelector("#profileImgFile");
 	const formData = new FormData();
@@ -79,16 +66,17 @@ async function changeProfileImg() {
 
     console.log("🚀 ~ file: ProfileImg.vue:80 ~ changeProfileImg ~ props.user.userId:", props.user.userId);
 	await axios
-		.post("http://localhost:8089/user/profileimg/3", formData, {
+		.post("http://localhost:8089/user/profileimg/" + props.user.userId.value, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
 		})
 		.then((response) => {
             props.user.profileImgUrl.value = "profile" + response.data.profileImgUrl;
+            location.reload();
 		})
 		.catch((error) => {
-            alert(error.response.data);
+            alert(error.data);
         });
 }
 

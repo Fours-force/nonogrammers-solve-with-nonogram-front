@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 window.onload = function () {
 	const imgArray = new Array();
 	imgArray[0] = "/images/gif/zzang.gif"; //사진
@@ -11,7 +11,7 @@ window.onload = function () {
 	const objImg = document.querySelector("#gifImgBox");
 	objImg.src = imgArray[rand];
 };
-</script>
+</script> -->
 <template>
 	<!-- if isSolved : 1 or 2 -->
 	<h1 class="pb-5 pl-5 text-3xl border-b-2 mb-7 font-brr text-nav-navy"></h1>
@@ -42,8 +42,9 @@ window.onload = function () {
 			v-for="userNono in user.nonoList.value"
 			class="p-6 mx-auto transition duration-200 bg-white border-4 rounded-lg w-6/6 h-60 border-nono-mypg-item-border hover:scale-105"
 		>
+        <!-- :userId/:nonoId/:baekjoonId -->
 			<router-link
-				:to="`/nono/detail/${userNono.user.userId}/${userNono.nono.nonoId}/${userNono.isSolved}`"
+				:to="`/nonodots/${userNono.user.userId}/${userNono.nono.nonoId}/${props.user.baekjoonUserId.value}`"
 				class="h-full mx-auto bg-white"
 			>
 				<img
@@ -57,7 +58,7 @@ window.onload = function () {
 		<!-- <th:block th:if="${isSolved eq 1}" th:each="nono : ${nonoList}"> -->
 		<!-- v-if="currentRouter.params." -->
 		<!-- v-for="nono in user.nonoList.value" -->
-		<div
+		<!-- <div
 			class="p-6 mx-auto transition duration-200 bg-white border-4 rounded-lg w-6/6 h-60 border-nono-mypg-item-border hover:scale-105"
 		>
 			<a
@@ -70,7 +71,7 @@ window.onload = function () {
 					class="object-contain w-80 h-80 xl:h-48 xl:w-56 lg:h-72 lg:w-72 md:h-80 md:w-80"
 				/>
 			</a>
-		</div>
+		</div> -->
 		<!-- </th:block> -->
 	</article>
 </template>

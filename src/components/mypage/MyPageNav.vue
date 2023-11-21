@@ -42,7 +42,7 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link :to='`/post/${user.userId.value}`' :user="user">
+				<router-link :to='`/post/${props.user.userId.value}`' :user="user">
 					<a
 						class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7"
 					>
@@ -54,8 +54,6 @@
 	</div>
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import axios from "axios";
 
 const props = defineProps({
 	user: {
@@ -63,6 +61,5 @@ const props = defineProps({
 		required: true,
 	},
 });
-// console.log(props.user.userId)
 
 </script>

@@ -66,7 +66,7 @@ const router = createRouter({
         { path: "/nonobox", component: nonobox },
         { path: '/nono/detail/:id/:nonoId/:isSolved', component: nonodots},
         // { path: '/nono/:id/:isSolved', component: nonobox},
-        { },
+        // { },
     ]
 });
 

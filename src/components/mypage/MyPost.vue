@@ -122,7 +122,6 @@
 </template>
 <script setup>
 import axios from "axios";
-import { title } from "process";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 // import { FwbButton, FwbModal } from 'flowbite-vue'

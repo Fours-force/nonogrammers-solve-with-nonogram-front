@@ -11,17 +11,21 @@
 import {computed, ref} from "vue";
 
     const props = defineProps({
-        initialNonoId : Number,
-        initialNonoImgUrl : String
+      initialNonoId : Number,
+      initialNonoImgUrl : String,
+      initialUserId : Number,
+      initialBaekjoonId : String,  
     })
 
-    const userId = 1;
+    const userId = props.initialUserId;
     const nonoId = ref(props.initialNonoId);
-    const nonoImgUrl = '/src/assets' + props.initialNonoImgUrl;
-    const baekjoonId = 'tjdtndlwkd';
+    const baekjoonId = props.initialBaekjoonId;
+    const nonoImgUrl = computed(() => {
+      return '/src/assets' + props.initialNonoImgUrl;
+    });
     const getNonoDotRouterUrl = computed(() =>{
-        return `/nonodots/${userId}/${nonoId.value}/${baekjoonId}`;
-    })
+      return `/nonodots/${userId}/${nonoId.value}/${baekjoonId}`;
+    });
 
 </script>
 

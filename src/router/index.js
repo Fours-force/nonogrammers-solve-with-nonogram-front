@@ -62,7 +62,7 @@ const router = createRouter({
                     component:  MyPostView
                 }
             ]},
-        { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
+        { path: "/nonodots/:userId/:nonoId/:baekjoonId", name: 'nonodots', component: nonodots},
         { path: "/nonobox", component: nonobox },
         { path: '/nono/detail/:id/:nonoId/:isSolved', component: nonodots},
         // { path: '/nono/:id/:isSolved', component: nonobox},

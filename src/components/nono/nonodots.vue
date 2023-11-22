@@ -67,7 +67,7 @@
         console.log("insertDots start !!!")
         var jsonData = {"solvingRow":solvingRow.value};
         api(`http://localhost:8089/api/updateUserDot/${userId.value}/${routeNonoId.value}`,'POST',jsonData).then((result) => {
-            // location.reload();
+          alert("문제 해결!");
           loadSolvedDot();
 
         }).catch((e) => {
@@ -76,7 +76,7 @@
     }
     const getNono = (uId, nId, bId) => {
         console.log("getNonodots start !!!");
-        console.log(`userId : ${uId}, nonoId : ${nId}, beakjoonId : ${bId}`)
+        console.log(`userId : ${uId}, nonoId : ${nId}, beakjoonId : ${bId}`);
         api(`http://localhost:8089/nonodots/${uId}/${nId}/${bId}`,'Get','').then((result) => {
             console.log(progress);
             progress.value = result.progress;
@@ -185,7 +185,7 @@ const rowMouseOut = (index) => {
         const goToList = () => {
             console.log("goToList");
             // location.href = '/nonobox';
-          router.push('/nonobox');
+            router.push('/nonobox');
 
         };
 

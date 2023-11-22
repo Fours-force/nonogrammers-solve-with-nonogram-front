@@ -34,10 +34,6 @@ const myUser = {
 	changedAt: ref(Date),
 }
 
-onMounted(() => {
-    getUser();
-});
-
 async function getUser() {
     await axios
     .get("http://localhost:8089/user/" + user.value.nickname)
@@ -48,7 +44,10 @@ async function getUser() {
         myUser.baekjoonUserId.value = data.baekjoonUserId;
         myUser.profileImgUrl.value = data.profileImgUrl;
         myUser.changedAt.value = data.changedAt;
-    });
-    
+    });    
 }
+
+onMounted(() => {
+    getUser();
+});
 </script>

@@ -31,5 +31,5 @@ const formatChangedDate = (dateString) => {
 };
 
 // ref를 toRefs로 변환
-const { user: reactiveUser } = toRefs(user);
+// const { user: reactiveUser } = toRefs(user);
 </script>

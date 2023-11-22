@@ -53,7 +53,12 @@
         console.log("check start !!!" )
         api(`http://localhost:8089/api/updateCheck/${baekjoonId.value}/${userId.value}/${routeNonoId.value}`,'GET','').then((result) => {
             console.log(result);
-            insertDots();
+            if (result == 1){
+              insertDots();
+            }else{
+              alert("이미 푼 행 입니다.");
+            }
+
         }).catch((e) => {
             console.log(e);
         });
@@ -62,7 +67,8 @@
         console.log("insertDots start !!!")
         var jsonData = {"solvingRow":solvingRow.value};
         api(`http://localhost:8089/api/updateUserDot/${userId.value}/${routeNonoId.value}`,'POST',jsonData).then((result) => {
-            location.reload();
+            // location.reload();
+          loadSolvedDot();
 
         }).catch((e) => {
           console.log(e);
@@ -178,7 +184,9 @@ const rowMouseOut = (index) => {
 
         const goToList = () => {
             console.log("goToList");
-            location.href = '/nonobox';
+            // location.href = '/nonobox';
+          router.push('/nonobox');
+
         };
 
     const updateSolvingRow = (num) => {

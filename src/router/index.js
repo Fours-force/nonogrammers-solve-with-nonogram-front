@@ -46,15 +46,19 @@ const router = createRouter({
         { path: '/editComment', component: Detail },
         { path: '/post/write', component: Write },
         { path: '/postDelete', component: Community },
-        { path: '/mypage/:nickName',
+        { path: '/mypage/:nickname',
             component: MyPageView,
             children : [
                 {
-                    path : "",
+                    path : "/mypage/:nickname",
                     component : ManageView
                 },
                 {
-                    path : "/nono/:id/:nonoId",
+                    path : "/nono/:id/1",
+                    component : MyNoNoView,
+                },
+                {
+                    path : "/nono/:id/2",
                     component : MyNoNoView,
                 },
                 {

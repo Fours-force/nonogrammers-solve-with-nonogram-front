@@ -32,6 +32,7 @@ const myUser = {
     postList: ref(Array),
     baekjoonUserId : ref(""),
 	changedAt: ref(Date),
+    // isSolved: ref(0),
 }
 
 onMounted(() => {

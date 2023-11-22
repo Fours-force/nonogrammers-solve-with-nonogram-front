@@ -8,7 +8,7 @@
                 </p>
             </li>
             <li>
-                <router-link :to="`/mypage/${props.user.userId.value}`">
+                <router-link :to="`/mypage/${props.user.nickName.value}`">
                     <a
                         class="flex items-center p-2 text-lg text-gray-900 rounded-md active:bg-main-skyblue active:text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ml-7">
                         <span class="flex-1 whitespace-nowrap">계정 관리</span>

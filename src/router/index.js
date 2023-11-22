@@ -46,11 +46,11 @@ const router = createRouter({
         { path: '/editComment', component: Detail },
         { path: '/post/write', component: Write },
         { path: '/postDelete', component: Community },
-        { path: '/mypage/:nickname',
+        { path: '/mypage/',
             component: MyPageView,
             children : [
                 {
-                    path : "/mypage/:nickname",
+                    path : ":nickname",
                     component : ManageView
                 },
                 {
@@ -69,8 +69,6 @@ const router = createRouter({
         { path: "/nonodots/:userId/:nonoId/:baekjoonId", name: 'nonodots', component: nonodots},
         { path: "/nonobox", component: nonobox },
         { path: '/nono/detail/:id/:nonoId/:isSolved', component: nonodots},
-        // { path: '/nono/:id/:isSolved', component: nonobox},
-        // { },
     ]
 });
 

@@ -32,12 +32,7 @@ const myUser = {
     postList: ref(Array),
     baekjoonUserId : ref(""),
 	changedAt: ref(Date),
-    // isSolved: ref(0),
 }
-
-onMounted(() => {
-    getUser();
-});
 
 async function getUser() {
     await axios
@@ -49,7 +44,10 @@ async function getUser() {
         myUser.baekjoonUserId.value = data.baekjoonUserId;
         myUser.profileImgUrl.value = data.profileImgUrl;
         myUser.changedAt.value = data.changedAt;
-    });
-    
+    });    
 }
+
+onMounted(() => {
+    getUser();
+});
 </script>

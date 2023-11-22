@@ -6,9 +6,9 @@
 		<div
 			class="flex items-center justify-around p-2 mt-10 sm:mt-10 md:mt-1"
 		>
-			<div class="hidden mr-3 sm:hidden md:block" id="imgBox">
+			<div class="hidden mr-3 sm:hidden md:block" id="imgBox" v-if="profileImgUrl.value != null || profileImgUrl.value != ''">
 				<img
-					:src="`http://localhost:8089${props.user.profileImgUrl.value}`"
+					:src="profileImgUrl.value"
 					alt=""
 					id="profileImgPreView"
 					class="w-40 h-40 transition duration-200 border-2 rounded-full border-nono-mypg-item-border hover:scale-110 hover:shadow-xl"
@@ -41,8 +41,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import axios from "axios";
+
+const profileImgUrl = ref('');
+
+profileImgUrl.value = computed(() => `http://localhost:8089${props.user.profileImgUrl.value}`);  
 
 const props = defineProps({
 	user: {
@@ -50,9 +54,6 @@ const props = defineProps({
 		required: true,
 	},
 });
-
-// 프로필 사진 변경하기
-const profileImgUrl = ref("");
 
 async function changeProfileImg() {
 	const profileImgForm = document.querySelector("#profileImgFile");
@@ -64,7 +65,6 @@ async function changeProfileImg() {
 		return false;
 	}
 
-    console.log("🚀 ~ file: ProfileImg.vue:80 ~ changeProfileImg ~ props.user.userId:", props.user.userId);
 	await axios
 		.post("http://localhost:8089/user/profileimg/" + props.user.userId.value, formData, {
 			headers: {

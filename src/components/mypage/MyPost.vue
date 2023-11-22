@@ -1,3 +1,68 @@
+<script setup>
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { initFlowbite } from 'flowbite'
+// import { FwbButton, FwbModal } from 'flowbite-vue'
+
+const useRouter = useRoute();
+
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
+    },
+});
+// const title = ref('');
+// const content =ref('');
+const postList = ref(Array);
+// const index = ref(0);
+
+async function getPostList() {
+    await axios
+        .get("http://localhost:8089/post/" + useRouter.params.id)
+        .then((response) => {
+            // console.log(response.data);
+            postList.value = response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+const postToUpdate = ref({
+    postId: null,
+    title: '',
+    content: '',
+});
+async function updatePost(post) {
+    console.log("🚀 ~ file: MyPost.vue:157 ~ updatePost ~ post:", post)
+
+    postToUpdate.value = {
+        postId: post.postId,
+        title: post.title,
+        content: post.content,
+    };
+
+    await axios
+        .patch("http://localhost:8089/post/" + props.user.userId.value + "/" + postToUpdate.value.postId, {
+            title: postToUpdate.value.title,
+            content: postToUpdate.value.content
+        })
+        .then((response) => {
+            alert(response.data);
+        })
+        .catch(error => {
+            alert(error.data);
+        });
+}
+
+onMounted(() => {
+    // console.log("hhihi");
+    initFlowbite();
+    getPostList();
+});
+</script>
+
 <template>
     <h1 class="w-full pb-5 pl-5 text-3xl border-b-2 mb-7 font-brr text-nav-navy">
         작성한 글
@@ -120,67 +185,3 @@
         </div>
     </article>
 </template>
-<script setup>
-import axios from "axios";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-// import { FwbButton, FwbModal } from 'flowbite-vue'
-
-const useRouter = useRoute();
-
-const props = defineProps({
-    user: {
-        type: Object,
-        required: true,
-    },
-});
-// const title = ref('');
-// const content =ref('');
-const postList = ref(Array);
-// const index = ref(0);
-
-async function getPostList() {
-    await axios
-        .get("http://localhost:8089/post/" + useRouter.params.id)
-        .then((response) => {
-            // console.log(response.data);
-            postList.value = response.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-const postToUpdate = ref({
-    postId: null,
-    title: '',
-    content: '',
-});
-async function updatePost(post) {
-    console.log("🚀 ~ file: MyPost.vue:157 ~ updatePost ~ post:", post)
-
-    postToUpdate.value = {
-        postId: post.postId,
-        title: post.title,
-        content: post.content,
-    };
-
-    console.log(props.user.userId.value);
-    // console.log(postId);
-    await axios
-        .patch("http://localhost:8089/post/" + props.user.userId.value + "/" + postToUpdate.value.postId, {
-            title: postToUpdate.value.title,
-            content: postToUpdate.value.content
-        })
-        .then((response) => {
-            alert(response.data);
-        })
-        .catch(error => {
-            alert(error.data);
-        });
-}
-
-onMounted(() => {
-    // console.log("hhihi");
-    getPostList();
-});
-</script>

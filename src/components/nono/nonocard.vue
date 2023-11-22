@@ -18,7 +18,7 @@ import {computed, ref} from "vue";
     })
 
     const userId = props.initialUserId;
-    const nonoId = ref(props.initialNonoId);
+    const nonoId = computed(() => props.initialNonoId);
     const baekjoonId = props.initialBaekjoonId;
     const nonoImgUrl = computed(() => {
       return '/src/assets' + props.initialNonoImgUrl;

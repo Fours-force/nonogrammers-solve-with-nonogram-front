@@ -77,6 +77,9 @@ router.beforeEach(async (to) => { // to: 탐색 될 경로 위치 객체, from: 
 
     // 로그인이 필요한 페이지에 접근하려고 할 때, 로그인이 되어있지 않으면 로그인 페이지로 이동
     if (authRequired && user.value===null) {
+        if (to.path.startsWith('/detail')) {
+            return;
+        }
         returnUrl.value = to.fullPath;
         alert("로그인이 필요합니다!")
         router.push('/login');

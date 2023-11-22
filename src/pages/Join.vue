@@ -194,7 +194,7 @@ watch(emailCodeButton, async (newVal) => {
             check.value.emailCheck = true;
         })
         .catch((err) => {
-            console.log(err);
+            check.value.emailCheck = false;
             alert(err.response.data);
         })
     }
@@ -214,6 +214,7 @@ watch(baekjoonButton, async (newVal) => {
                 check.value.bjCheck = true; 
             })
             .catch((err) => {
+                check.value.bjCheck = false; 
                 idMsg.innerText = err.response.data;
             })
         }
@@ -232,6 +233,7 @@ watch(nicknameButton, async (newVal) => {
             check.value.nickCheck = true; 
         })
         .catch((err) => {
+            check.value.nickCheck = false; 
             nicknameMsg.innerText = err.response.data;
         })
     }

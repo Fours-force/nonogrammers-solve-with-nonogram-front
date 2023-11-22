@@ -60,7 +60,7 @@
     };
     const insertDots = () => {
         console.log("insertDots start !!!")
-        var jsonData = {"solvingRow":solvingRow.value-1};
+        var jsonData = {"solvingRow":solvingRow.value};
         api(`http://localhost:8089/api/updateUserDot/${userId.value}/${routeNonoId.value}`,'POST',jsonData).then((result) => {
             location.reload();
 
@@ -114,6 +114,7 @@ const rowMouseOut = (index) => {
             (newValue, oldValue) => {
                 console.log(`Count changed from ${oldValue} to ${newValue}`);
                 if (newValue === 100) {
+                    updateSolvedStat();
                     console.log('다 푼 문제로~');
                 }
             },
@@ -127,8 +128,8 @@ const rowMouseOut = (index) => {
                 let col = 0;
                 let row = 0;
                 for (let i = 0; i < result.length; i++) {
-                    col = Math.floor((result[i] - 1) / 32); //소수점 제거
-                    row = (result[i] - 1) % 32;
+                    col = Math.floor((result[i]-1) / 32); //소수점 제거
+                    row = (result[i]-1) % 32;
                     totalRowList.value[col][row].isSolved = 'solved';
                     totalRowList.value[col][row].onRow = 'defaultRowColor';
                 }
@@ -204,7 +205,14 @@ const rowMouseOut = (index) => {
         updateSolvingRow(num);
         location.href = `https://www.acmicpc.net/problem/${urlAry.value[Number.parseInt(num)]}`;
     }
-
+    
+    const updateSolvedStat = () =>{
+        api(`http://localhost:8089/api/updateIsSolved/${userId.value}/${routeNonoId.value}`,'GET').then(() =>{
+            console.log("ㅊㅋㅊㅋ");
+        });
+      
+    }
+      
 
 
         console.log("end script");

@@ -28,7 +28,7 @@
                             <h1 class="mt-2 text-2xl font-bold tracking-tight text-nav-navy sm:text-2xl">{{postDTO.title}}</h1>
                         </div>
                         <div class="flex items-center mt-3">
-                            <img th:src="${pos.imgSrc}" class="ml-5 rounded-image" alt="">
+                            <img :src="'src/assets'+postDTO.imgSrc" class="ml-5 rounded-image" alt="">
                             <div class="ml-3">
                                 <span class="text-sm text-nav-navy">{{postDTO.nickName}}</span>
                                 <p class="text-xs text-commu-time-info">{{postDTO.createdAt}}</p>
@@ -37,7 +37,7 @@
                                     <p class="ml-2">{{postDTO.updatedAt}}</p>
                                 </div>
                             </div>
-                            <form th:if="${session.value != null and session.value.userId == pos.userId}" id="posEditForm" action="/editing" method="post">
+                            <form v-if="user != null&&(user.nickname==postDTO.nickName)" id="posEditForm" @submit.prevent="submitForm" method="post">
                                 <input type="hidden" name="postId" id="pos_postId_edit" th:value="${pos.postId}">
                                 <input type="hidden" name="content" id="pos_content_edit" th:value="${pos.content}">
                                 <input type="hidden" name="title" id="pos_title_edit" th:value="${pos.title}">
@@ -46,16 +46,19 @@
                                     <div class="mt-0.5 ml-2 text-xs text-white">수정</div>
                                 </button>
                             </form>
-                            <form @submit.prevent="deletePost" th:if="${session.value != null and session.value.userId == pos.userId}" id="postDeleteForm" action="/postDelete" method="post">
+                            <form v-if="user != null&&(user.nickname==postDTO.nickName)" @submit.prevent="deletePost" id="postDeleteForm" action="/postDelete" method="post">
                                 <input type="hidden" name="postId" id="pos_postId">
                                 <button type="submit" class="flex h-5 mt-2 ml-3 duration-300 ease-in-out rounded-md w-9 bg-main-skyblue hover:bg-main-blue">
                                     <div class="mt-0.5 ml-2 text-xs text-white">삭제</div>
                                 </button>
                             </form>
                         </div>
-<!--                        <div th:each="fileUrl : ${pos.getFileUrls()}" class="mt-5 ml-5">-->
-<!--                            <img th:src="@{${fileUrl}}" width="400" alt="">-->
-<!--                        </div>-->
+                        <!-- <div th:each="fileUrl : ${pos.getFileUrls()}" class="mt-5 ml-5">
+                            <img th:src="@{${fileUrl}}" width="400" alt="">
+                        </div> -->
+                        <div v-for="file in files" :key="file.fileId">
+                            <img :src="`http://localhost:8089${file.fileUrl}`" width="400" alt="">
+                        </div>
                         <p class="px-6 mt-6 text-lg leading-8 text-nav-navy">{{postDTO.content}}</p>
                         <div class="flex mt-5">
                             <img src="@/assets/images/icon_eye_.png" class="object-cover object-center h-3 pl-3 mt-1.5" alt="">
@@ -75,7 +78,7 @@
                         <div v-for="vo in comments" :key="vo.commentId">
                             <div class="mb-5" th:id="'comment-'+${vo.commentId}" v-if="!DisplayEdit">
                                 <div class="flex mt-2 ml-5">
-                                    <img :src="vo.imgSrc" class="mt-3 ml-3 rounded-image" alt="">
+                                    <img :src="'src/assets'+vo.imgSrc" class="mt-3 ml-3 rounded-image" alt="">
 <!--                                    <img src="/images/Rectangle 28.png" class="object-cover object-center h-8 pl-3 mt-3 w-fit" alt="">-->
                                     <div class="mt-2 ml-3">
                                         <span class="text-sm">{{ vo.nickName }}</span>
@@ -97,10 +100,10 @@
                                         <img src="@/assets/images/icon_thumbup_(1).png" class="object-cover object-center mt-1 ml-1.5" alt="">
                                         <div class="mt-1 ml-1 text-xs text-white">0</div>
                                     </button>
-                                        <button @click="editComment(vo.postId, vo.commentId,vo.content,vo.userId)" th:if="${session.value != null and session.value.userId == vo.userId}" class="flex h-5 mt-2 ml-3 duration-300 ease-in-out rounded-md w-9 bg-main-skyblue hover:bg-main-blue" th:onclick="editComment([[${vo.postId}]], [[${vo.commentId}]],[[${vo.content}]])">
+                                        <button @click="editComment(vo.postId, vo.commentId,vo.content,vo.userId)" v-if="user != null&&(user.nickname==vo.nickName)" class="flex h-5 mt-2 ml-3 duration-300 ease-in-out rounded-md w-9 bg-main-skyblue hover:bg-main-blue" th:onclick="editComment([[${vo.postId}]], [[${vo.commentId}]],[[${vo.content}]])">
                                             <div class="mt-0.5 ml-2 text-xs text-white">수정</div>
                                         </button>
-                                    <form @submit.prevent="deleteComment(vo.commentId)" th:if="${session.value != null and session.value.userId == vo.userId}" id="deleteCommentForm" method="post">
+                                    <form @submit.prevent="deleteComment(vo.commentId)" v-if="user != null&&(user.nickname==vo.nickName)" id="deleteCommentForm" method="post">
                                         <input name="commentId" id="commentId" type="hidden">
                                         <!-- <input type="hidden" name="postId" id="postId" th:value="${vo.postId}"> -->
                                         <button type="submit" class="flex h-5 mt-2 ml-3 duration-300 ease-in-out rounded-md w-9 bg-main-skyblue hover:bg-main-blue">
@@ -145,7 +148,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form class="px-5 pt-3" method="post" @submit.prevent="submitForm" id="writeCmtBox" v-else="DisplayEdit">
+                        <form class="px-5 pt-3" method="post" @submit.prevent="submitCommentForm" id="writeCmtBox" v-else="DisplayEdit">
                             <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                                     <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                                         <input type="hidden" name="postId">
@@ -189,17 +192,23 @@
 <script>
 import axios from 'axios';
 import Header from '@/components/Header.vue'
+import { useAuthStore } from '@/stores/auth.store';
+import { storeToRefs } from 'pinia';
 
 export default {
     components: {
         Header
-  },
+    },
     data() {
+        const authStore = useAuthStore();
         return {
+            user: storeToRefs(authStore).user,
             postDTO: {},
+            userDTOtoFindUserId : {},
             comments: [],
             counts: [],
             postId: 0,
+            files:[],
             formData: {
                 commentId:'',
                 postId: this.$route.query.postId,
@@ -219,6 +228,8 @@ export default {
         
         this.postId = this.$route.query.postId;
         this.fetchData();
+        console.log(this.user.nickname);
+        this.getUserId();
     },
     methods: {
         fetchData() {
@@ -227,12 +238,13 @@ export default {
                 this.postDTO = response.data.postDTO;
                 this.comments = response.data.comments;
                 this.counts = response.data.counts;
+                this.files = response.data.files;
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
         },
-        submitForm() {
+        submitCommentForm() {
             // 폼 데이터를 서버로 전송하는 함수 호출
             this.sendFormDataToServer(this.formData);
         },
@@ -241,7 +253,7 @@ export default {
                 const commentData = {
                     commentId: '',
                     postId: formData.postId,
-                    userId: 1,
+                    userId: formData.userId,
                     content: formData.content,
                     createdAt: '',
                     updatedAt: '',
@@ -257,6 +269,33 @@ export default {
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
+        },
+        getUserId(){
+            try {
+                // 예시: 서버에서 사용자 정보를 가져오는 API 호출
+                console.log("this.user.nickname : "+this.user.nickname);
+                axios.get(`http://localhost:8089/user?nickName=${this.user.nickname}`)
+                .then(response => {
+                    this.userDTOtoFindUserId = response.data;
+                    console.log(this.userDTOtoFindUserId);
+                    console.log("userId : "+this.userDTOtoFindUserId.userId);
+                    this.formData.userId=this.userDTOtoFindUserId.userId;
+                    console.log("form : "+this.formData.userId);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+                console.log("response.data.userId : "+this.userDTOtoFindUserId);
+                
+                // // 서버 응답에서 userId를 user 객체에 추가
+                // this.$set(this.user, 'userId', response.data.userId);
+
+                // // 로컬 스토리지에 업데이트
+                // localStorage.setItem('user', JSON.stringify(this.user));
+            } catch (error) {
+                console.error('Error fetching user information:', error);
+            }
+            
         },
         deleteComment(cmt) {
             this.sendFormDataToServerforDelete(cmt);
@@ -319,10 +358,6 @@ export default {
         },
         async sendFormDataToServerforDeletePost(formData) {
             try {
-                // const postIdData={
-                //     postId:formData.postId
-                // }
-                // console.log(postIdData);
                 const commentData = {
                     commentId: '',
                     postId: this.$route.query.postId,
@@ -341,6 +376,9 @@ export default {
                 console.error('Error submitting form:', error);
             }
         },
+        submitForm(){
+            this.$router.push(`/post/write?postId=${this.postId}`);
+        }
     },
 };
 </script>

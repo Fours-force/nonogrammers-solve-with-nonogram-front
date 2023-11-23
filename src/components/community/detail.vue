@@ -65,9 +65,9 @@
                             <span class="pl-1.5 pr-3 mt-1 text-xs">{{postDTO.viewCount}}</span>
                             <img src="@/assets/images/image 12.png" class="h-4 mt-1" alt="">
                             <p class="pl-1 mt-1 text-xs">{{postDTO.commentCount}}</p>
-                            <button id="btnLikeCount" class="flex w-10 h-6 ml-2 duration-300 ease-in-out rounded-md" disabled>
+                            <button id="btnLikeCount" class="flex w-10 h-6 ml-2 duration-300 ease-in-out rounded-md hover:bg-commu-pagination-hover" @click="likeItPost()">
                                 <img src="@/assets/images/icon_thumbup_.png" class="object-cover object-center h-3 pl-2 mt-1" alt="">
-                                <p id="likeCount" class="pl-1 mt-1 text-xs">{{postDTO.likeCount}}</p>
+                                <p id="likeCount" class="pl-1 mt-1 text-xs">{{postDTO.likeCount }}</p>
                             </button>
                         </div>
                     </div>
@@ -76,17 +76,17 @@
                             댓글
                         </div>
                         <div v-for="vo in comments" :key="vo.commentId">
-                            <div class="mb-5" th:id="'comment-'+${vo.commentId}" v-if="!DisplayEdit">
+                            <div class="mb-5" th:id="'comment-'+${vo.commentId}" v-if="this.formData.commentId!==vo.commentId">
                                 <div class="flex mt-2 ml-5">
                                     <img :src="'src/assets'+vo.imgSrc" class="mt-3 ml-3 rounded-image" alt="">
 <!--                                    <img src="/images/Rectangle 28.png" class="object-cover object-center h-8 pl-3 mt-3 w-fit" alt="">-->
                                     <div class="mt-2 ml-3">
                                         <span class="text-sm">{{ vo.nickName }}</span>
                                         <div class="flex">
-                                            <p class="text-xs text-commu-time-info">{{ vo.createdAt }}</p>
-                                            <div v-if="vo.createdAt != vo.updatedAt" class="flex text-xs text-commu-time-info">
+                                            <p class="text-xs text-commu-time-info">{{ formatTimestamp(vo.createdAt) }}</p>
+                                            <div v-show="vo.updatedAt!=null" class="flex text-xs text-commu-time-info">
                                                 <p class="ml-3">수정일시 :</p>
-                                                <p class="ml-2">{{ vo.updatedAt }}</p>
+                                                <p class="ml-2">{{ formatTimestamp(vo.updatedAt) }}</p>
                                             </div>
                                         </div>
 
@@ -221,9 +221,15 @@ export default {
             },
             DisplayEdit: false,
             commentId:0,
+            likeCount:0,
             'formData.commentId':'',
         };
     },
+    // computed: {
+    //     computedLikeCount() {
+    //     return this.postDTO.likeCount;
+    //     }
+    // },
     mounted() {
         
         this.postId = this.$route.query.postId;
@@ -243,6 +249,35 @@ export default {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
+        },
+        formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`;
+            },
+        likeItPost(){
+            const likeDTO = {
+                    postId: this.$route.query.postId,
+                    userId: this.formData.userId,
+                };
+            axios.post('http://localhost:8089/post/like', likeDTO)
+            .then(response => {
+                console.log(response.data);
+                this.postDTO.likeCount = response.data;
+                console.log("this.likeCount : "+this.likeCount);
+                
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+
         },
         submitCommentForm() {
             // 폼 데이터를 서버로 전송하는 함수 호출
@@ -352,9 +387,13 @@ export default {
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
+            formData.commentId='';
         },
-        deletePost() {
-            this.sendFormDataToServerforDeletePost(this.formData);
+        async deletePost() {
+            const response = await axios.get(`http://localhost:8089/postDelete?postId=${this.$route.query.postId}`)
+            // axios.get('http://localhost:8089/postDelete', { postId: parseInt(this.$route.query.postId) });
+            this.$router.push('/post/all');
+            // this.sendFormDataToServerforDeletePost(this.formData);
         },
         async sendFormDataToServerforDeletePost(formData) {
             try {
@@ -368,7 +407,8 @@ export default {
                     nickName: '',
                     imgSrc: '',
                 };
-                const response = await axios.post('http://localhost:8089/postDelete', commentData);
+                console.log("postId : "+this.$route.query.postId);
+                const response = await axios.get('http://localhost:8089/postDelete', { postId: parseInt(this.$route.query.postId) });
                 console.log(response.data);
                 this.$router.push('/post/all');
                 // this.fetchData();

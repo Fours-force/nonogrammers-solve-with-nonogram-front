@@ -172,7 +172,7 @@ export default {
             posts: [],
             currentPage: 0,
             totalPages: 1,
-            selectedMenu: '전체',
+            selectedMenu: 'all',
             searchText: '',
         };
     },

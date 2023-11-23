@@ -185,7 +185,7 @@ export default {
                 imgSrc:'',
                 boardTypeStr:''
             },
-            selectedMenu: '',
+            selectedMenu: '자유게시판',
             imageUrls: [],
         };
     },

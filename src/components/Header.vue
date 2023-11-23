@@ -39,7 +39,7 @@
                                             id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                             <!-- <span class="absolute -inset-1.5"></span> -->
                                             <span class="sr-only">Open user menu</span>
-                                            <img class="w-full h-full rounded-full" :src="user.profileImg"
+                                            <img class="w-full h-full rounded-full" :src="`http://localhost:8089${user.profile}`"
                                                 alt="profile-img">
                                         </button>
                                         <div v-if="isDropdown" class="absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow md:w-40 dark:bg-gray-700">

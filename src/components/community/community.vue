@@ -1,4 +1,5 @@
 <template>
+<Header></Header>
 <body class="container">
     <section>
         <div class="bg-back font-brr my-component">
@@ -25,14 +26,21 @@
                             <img src="@/assets/images/icon_magnifying glass_.png" alt="Search Icon" class="absolute inset-y-0 left-0 w-6 h-6 my-auto ml-2">
                     
                             <!-- 검색 필드 -->
-                            <input type="text" v-model="searchText" @input="handleInput" class="w-full h-10 pl-10 pr-2 font-bold bg-white border border-black rounded-md"
-                                name="search" id="search" size="40" placeholder="검색...">
+                            <input
+                                :value="searchText"
+                                @input="handleInput"
+                                class="w-full h-10 pl-10 pr-2 font-bold bg-white border border-black rounded-md"
+                                name="search"
+                                id="search"
+                                size="40"
+                                placeholder="검색..."
+                            />
                         </label>
                     </div>
                     <div>
                         <div class="relative w-full h-10">
                             <button class="w-full h-10 text-center text-white duration-300 ease-in-out border rounded-md bg-main-blue pl-7 pr-7 hover:bg-main-skyblue" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                            onclick="window.location.href='/posting'">
+                            onclick="window.location.href='/post/write'">
                                 글 작성
                             </button>
                         </div>
@@ -58,7 +66,7 @@
                                         </div>
                                         <p class="px-4 mt-1 text-sm text-gray-900" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{post.content}}</p><!-- 내용 -->
                                         <div class="flex items-center">
-                                            <img :src="post.imgSrc" class="mt-1 ml-5 rounded-image" alt=""><!-- 프로필 이미지 -->
+                                            <img :src="'/src/assets'+post.imgSrc" class="mt-1 ml-5 rounded-image" alt=""><!-- 프로필 이미지 -->
                                             <div class="ml-2">
                                                 <span class="text-xs">작성자 : {{post.nickName}}</span>
                                                 <p class="text-xs text-gray-500">{{post.createdAt}}</p>
@@ -153,14 +161,18 @@
 </style>
 <script>
 import axios from 'axios';
+import Header from '@/components/Header.vue'
 
 export default {
+    components: {
+        Header
+    },
     data() {
         return {
             posts: [],
             currentPage: 0,
             totalPages: 1,
-            selectedMenu: '전체',
+            selectedMenu: 'all',
             searchText: '',
         };
     },
@@ -169,15 +181,28 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get(`http://localhost:8089/post?page=${this.currentPage}`)
-            .then(response => {
+            // 현재 주소 가져오기
+            const currentUrl = window.location.href;
+            console.log("currentUrl : "+currentUrl);
+            // 현재 페이지의 경로만 가져오기
+            const currentPath = window.location.pathname;
+            console.log("currentPath : "+currentPath);
+            // 현재 페이지의 경로에 페이지 쿼리 파라미터 추가
+            const urlWithPage = new URL(`http://localhost:8089${currentPath}`);
+            urlWithPage.searchParams.set('page', this.currentPage);
+            console.log(urlWithPage);
+            
+            // 쿼리 파라미터가 추가된 주소로 요청 보내기
+            axios.get(urlWithPage.toString())
+                .then(response => {
                 this.posts = response.data.content;
                 this.totalPages = response.data.totalPages;
-            })
-            .catch(error => {
+                })
+                .catch(error => {
                 console.error('Error fetching data:', error);
-            });
-        },
+                });
+            },
+
         fetchMenu() {
             axios.get(`http://localhost:8089/post/${this.selectedMenu}`)
             .then(response => {
@@ -220,8 +245,9 @@ export default {
             this.fetchMenu();
             this.$router.push(`/post/${this.selectedMenu}`);
         },
-        handleInput() {
+        handleInput(event) {
             this.fetchSearch();
+            this.searchText = event.target.value;
             this.$router.push({ path: '/search', query: { keyword: this.searchText } });
         },
         clickDetail(evt){

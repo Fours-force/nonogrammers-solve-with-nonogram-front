@@ -33,7 +33,7 @@
 <body class="container bg-back">
 
 <div class="container flex flex-col max-w-screen-xl mx-auto mt-5 sm:px-6 lg:px-8">
-    <form method="POST" enctype="multipart/form-data" id="postFile">
+    <!-- <form id="postFile"> -->
     <!--  카테고리  -->
     <div class="flex flex-col space-y-2 font-brr">
         <p>카테고리<span class="text-red-500"> *</span></p>
@@ -143,27 +143,33 @@
     </div>
 
     <div class="flex flex-row mt-3 space-x-4 font-brr ">
-        <a th:href="${ref}"><button type="button" id="cancelButton" class="items-center py-2 text-center text-black rounded-lg px-9 text-md">
+        <a href="/post"><button type="button" id="cancelButton" class="items-center py-2 text-center text-black rounded-lg px-9 text-md">
             취소
         </button></a>
-        <button type="submit" id="submitButton" @click="submitForm()" class="items-center py-2 text-center text-white rounded-lg px-9 text-md">
+        <button id="submitButton" @click="submitForm()" class="items-center py-2 text-center text-white rounded-lg px-9 text-md">
             등록
         </button>
     </div>
-    </form>
+    <!-- </form> -->
 </div>
 </body>
 </template>
 <script>
 import axios from 'axios';
 import Header from '@/components/Header.vue'
+import { useAuthStore } from '@/stores/auth.store';
+import { storeToRefs } from 'pinia';
 
 export default {
     components: {
         Header
-  },
+    },
     data() {
+        const authStore = useAuthStore();
         return {
+            user: storeToRefs(authStore).user,
+            userDTOtoFindUserId : {},
+            postId: 0,
             postFormData: {
                 postId:'',
                 boardType:'',
@@ -172,19 +178,71 @@ export default {
                 content:'',
                 createdAt:'',
                 updatedAt:'',
-                viewCount:''
+                commentCount:'',
+                likeCount:'',
+                viewCount:'',
+                nickName:'',
+                imgSrc:'',
+                boardTypeStr:''
             },
-            selectedMenu: '',
+            selectedMenu: '자유게시판',
             imageUrls: [],
         };
     },
     mounted() {
+        this.postId = this.$route.query.postId;
+        if(this.postId!==undefined){
+            this.fetchData();
+        }
+        this.getUserId();
         
     },
     methods: {
+        fetchData() {
+            axios.get(`http://localhost:8089/post/write?postId=${this.postId}`)
+            .then(response => {
+                // this.posts = response.data.content;
+                // this.totalPages = response.data.totalPages;
+                this.postFormData.title=response.data.postDTO.title;
+                this.postFormData.content=response.data.postDTO.content;
+                this.selectedMenu=response.data.postDTO.boardTypeStr;
+                console.log(this.postFormData.title);
+                console.log(this.postFormData.content);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        },
         // submitForm(){
         //     this.sendFormDataToServer(this.postFormData);
         // },
+        getUserId(){
+            try {
+                // 예시: 서버에서 사용자 정보를 가져오는 API 호출
+                console.log("this.user.nickname : "+this.user.nickname);
+                axios.get(`http://localhost:8089/user?nickName=${this.user.nickname}`)
+                .then(response => {
+                    this.userDTOtoFindUserId = response.data;
+                    console.log(this.userDTOtoFindUserId);
+                    console.log("userId : "+this.userDTOtoFindUserId.userId);
+                    this.postFormData.userId=this.userDTOtoFindUserId.userId;
+                    console.log("form : "+this.postFormData.userId);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+                console.log("response.data.userId : "+this.userDTOtoFindUserId);
+                
+                // // 서버 응답에서 userId를 user 객체에 추가
+                // this.$set(this.user, 'userId', response.data.userId);
+
+                // // 로컬 스토리지에 업데이트
+                // localStorage.setItem('user', JSON.stringify(this.user));
+            } catch (error) {
+                console.error('Error fetching user information:', error);
+            }
+            
+        },
         async sendFormDataToServer(postFormData) {
             try {
                 // const postData = {
@@ -229,11 +287,12 @@ export default {
 
             // Reset the imageUrls array
             this.imageUrls = [];
-
+            console.log("files : "+files);
             // const container = document.getElementById("imageBox");
 
             for (let i = 0; i < files.length; i++) {
                 const url = URL.createObjectURL(files[i]);
+                console.log(url);
                 this.imageUrls.push(url);
 
                 // const img = new Image();
@@ -245,28 +304,135 @@ export default {
             }
         },
         async submitForm() {
-            const profileImgForm = document.querySelector("#postFile");
+            // const profileImgForm = document.querySelector("#postFile");
             const formData = new FormData();
-
-            formData.append("profileImg", profileImgForm[0].files[0]);
-            if (profileImgForm[0].files[0] == null) {
-                alert("선택된 이미지가 없습니다.");
-                return false;
+            console.log("1번입니다~")
+            const files = this.$refs.fileInput.files;
+            // formData.append("profileImg", profileImgForm[0].files[0]);
+            // if (profileImgForm[0].files[0] == null) {
+            //     alert("선택된 이미지가 없습니다.");
+            //     return false;
+            // }
+            console.log(files.length);
+            console.log("2번입니다~")
+            if(this.postId!==undefined){
+                // Append JSON data
+                formData.append('postDTO', new Blob([JSON.stringify({
+                    postId: this.postId,
+                    boardType: '',
+                    userId: this.postFormData.userId,
+                    title: this.postFormData.title,
+                    content: this.postFormData.content,
+                    createdAt: '',
+                    updatedAt: '',
+                    commentCount: '',
+                    likeCount: '',
+                    viewCount: '',
+                    nickName: '',
+                    imgSrc: '',
+                    boardTypeStr: ''
+                })], { type: 'application/json' }));
+            }else{
+                // Append JSON data
+                formData.append('postDTO', new Blob([JSON.stringify({
+                    postId: '',
+                    boardType: '',
+                    userId: this.postFormData.userId,
+                    title: this.postFormData.title,
+                    content: this.postFormData.content,
+                    createdAt: '',
+                    updatedAt: '',
+                    commentCount: '',
+                    likeCount: '',
+                    viewCount: '',
+                    nickName: '',
+                    imgSrc: '',
+                    boardTypeStr: ''
+                })], { type: 'application/json' }));
             }
+            if(files.length!=0){
+                console.log("파일이 있음");
+                // Append files
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('vo', files[i]);
+                }
+            }else{
+                console.log("파일이 없음");
+                formData.append('vo', new Blob([], { type: 'multipart/form-data' }));
+            }
+            
 
+            // Append FileDTO JSON data
+            formData.append('fileDTO', new Blob([JSON.stringify({
+                fileId: '',
+                postId: '',
+                filename: '',
+                fileExtension: '',
+                fileUrl: '',
+                createdAt: '',
+                statusCode: '',
+            })], { type: 'application/json' }));
+
+            formData.append("category", this.selectedMenu);
+            // formData.get(f)
+            // if (files[0] == null) {
+            //     alert("선택된 이미지가 없습니다.");
+            //     return false;
+            // }
+            console.log(this.postFormData.title);
+            console.log(this.postFormData.content);
+            console.log("요청 전입니다~");
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            };
+            console.log(formData);
             // const userId = ref(8);
-            await axios
-                .post("http://localhost:8089/post/write", formData, {
+            if(this.postId!==undefined){
+                console.log("수정 버튼");
+                await axios
+                .post(`http://localhost:8089/post/write`, formData, {
                     headers: {
-                        "Content-Type": "multipart/form-data",
+                        'Content-Type': 'multipart/mixed',
                     },
                 })
                 .then((response) => {
+                    console.log(response)
                     // props.user.profileImgUrl.value = response.data.profileImgUrl;
                 })
                 .catch((error) => {
+                    console.log(error)
                     // alert(error.response.data);
                 });
+                this.$router.push(`/post`);
+            }else{
+                console.log("새로 작성 버튼");
+                await axios
+                .post(`http://localhost:8089/post/write`, formData)
+                .then((response) => {
+                    console.log(response)
+                    // props.user.profileImgUrl.value = response.data.profileImgUrl;
+                })
+                .catch((error) => {
+                    console.log(error)
+                    // alert(error.response.data);
+                });
+                this.$router.push(`/post`);
+            }
+            // await axios
+            //     .post(`http://localhost:8089/post/write`, formData, {
+            //         headers: {
+            //             'Content-Type': 'multipart/mixed',
+            //         },
+            //     })
+            //     .then((response) => {
+            //         console.log(response)
+            //         // props.user.profileImgUrl.value = response.data.profileImgUrl;
+            //     })
+            //     .catch((error) => {
+            //         console.log(error)
+            //         // alert(error.response.data);
+            //     });
+            //     this.$router.push(`/post`);
         },
     
     // watch:{

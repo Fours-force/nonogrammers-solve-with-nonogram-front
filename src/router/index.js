@@ -45,6 +45,7 @@ const router = createRouter({
         { path: '/deleteComment', component: Detail },
         { path: '/editComment', component: Detail },
         { path: '/post/write', component: Write },
+        { path: '/editing', component: Write },
         { path: '/postDelete', component: Community },
         { path: '/mypage/',
             component: MyPageView,

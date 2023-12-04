@@ -1,7 +1,5 @@
 <template>
 <Header></Header>
-<body class="container">
-    <section>
         <div class="bg-back font-brr my-component">
             <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
                 <div class="flex justify-around mb-10">
@@ -91,8 +89,6 @@
                 </div>
             </div>
         </div>
-
-    </section>
     <section><!-- 페이징 -->
         <div class="flex items-center justify-between px-4 py-3 sm:px-6 bg-back">
             <div class="flex justify-between flex-1 sm:hidden">
@@ -131,7 +127,6 @@
         </div>
     </section>
     
-</body>
 </template>
 <style>
         .page-link[aria-total="page"] {

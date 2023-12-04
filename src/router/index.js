@@ -23,6 +23,7 @@ import nonobox from "../components/nono/nonobox.vue"
 import MyNoNoView from '@/pages/MyNoNo.vue'
 import MyPageView from '@/pages/MyPage.vue'
 import ManageView from '@/components/mypage/Manage.vue'
+import MyPostView from '@/components/mypage/MyPost.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -46,29 +47,35 @@ const router = createRouter({
         { path: '/post/write', component: Write },
         { path: '/editing', component: Write },
         { path: '/postDelete', component: Community },
-        { path: '/mypage/:id',
+        { path: '/mypage/',
             component: MyPageView,
             children : [
                 {
-                    path : "",
+                    path : ":nickname",
                     component : ManageView
                 },
                 {
-                    path : "/nono/:id/:nonoId",
+                    path : "/nono/:id/1",
                     component : MyNoNoView,
+                },
+                {
+                    path : "/nono/:id/2",
+                    component : MyNoNoView,
+                },
+                {
+                    path: '/post/:id',
+                    component:  MyPostView
                 }
             ]},
-        { path: "/nonodots/:userId/:nonoId/:baekjoonId", component: nonodots},
+        { path: "/nonodots/:userId/:nonoId/:baekjoonId", name: 'nonodots', component: nonodots},
         { path: "/nonobox", component: nonobox },
-        // { path: '/nono/:id/:isSolved', component:  MyIngNoNoView},
-        // { path: '/nono/:id/:isSolved', component:  MySolvedNoNoView},
-        // { path: '/post/:id', component:  MyPostView},
+        { path: '/nono/detail/:id/:nonoId/:isSolved', component: nonodots},
     ]
 });
 
 // 모든 라우터 이동 전에 실행
 router.beforeEach(async (to) => { // to: 탐색 될 경로 위치 객체, from: 탐색 전 현재 경로 위치 객체
-
+    console.log("beforeEach")
     const authStore = useAuthStore();
     const { user, returnUrl } = storeToRefs(authStore);
     
@@ -78,6 +85,9 @@ router.beforeEach(async (to) => { // to: 탐색 될 경로 위치 객체, from: 
 
     // 로그인이 필요한 페이지에 접근하려고 할 때, 로그인이 되어있지 않으면 로그인 페이지로 이동
     if (authRequired && user.value===null) {
+        if (to.path.startsWith('/detail')) {
+            return;
+        }
         returnUrl.value = to.fullPath;
         alert("로그인이 필요합니다!")
         router.push('/login');

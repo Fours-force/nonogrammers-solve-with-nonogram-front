@@ -33,19 +33,21 @@
                                 <!-- Profile dropdown -->
                                 <div class="relative">
                                     <div>
+                                        <!-- data-dropdown-toggle="dropdown" -->
                                         <button @click="toggleDropdown" type="button"
-                                            data-dropdown-toggle="dropdown"
-                                            class="relative flex text-sm rounded-full h-10 w-10 sm:w-10 border-2 focus:border-main-skyblue focus:outline-none focus:ring-main-skyblue focus:ring-offset-2 focus:ring-offset-gray-800"
+                                            class="relative flex w-10 h-10 text-sm border-2 rounded-full sm:w-10 focus:border-main-skyblue focus:outline-none focus:ring-main-skyblue focus:ring-offset-2 focus:ring-offset-gray-800"
                                             id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                             <!-- <span class="absolute -inset-1.5"></span> -->
                                             <span class="sr-only">Open user menu</span>
-                                            <img class="h-full w-full rounded-full" :src="user.profileImg"
+                                            <img class="w-full h-full rounded-full" :src="`${serverUrl}${user.profile}`"
                                                 alt="profile-img">
                                         </button>
                                         <div v-if="isDropdown" class="absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow md:w-40 dark:bg-gray-700">
                                             <ul class="py-2 text-gray-700 text-md font-super256 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                                                 <li>
-                                                    <a :href="`/`+user.nickname" class="block px-6 py-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">MYPAGE</a>
+                                                    <router-link :to="`/mypage/${user.nickname}`">
+                                                    <p class="block px-6 py-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">MYPAGE</p>
+                                                    </router-link>
                                                 </li>
                                                 <li>
                                                     <a @click="logout()" class="block px-6 py-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">LOGOUT</a>
@@ -93,8 +95,10 @@
                     <a href="/post"
                         class="block px-3 py-2 text-base font-medium rounded-md text-nav-navy hover:bg-gray-700 hover:text-white">COMMUNITY</a>
                     <div v-if="user != null">
-                        <a :href="`/`+user.nickname"
-                            class="block px-3 py-2 text-base font-medium rounded-md text-nav-navy hover:bg-gray-700 hover:text-white">MYPAGE</a>
+                        <router-link :to="`/mypage/${user.nickname}`">
+                            <p
+                            class="block px-3 py-2 text-base font-medium rounded-md text-nav-navy hover:bg-gray-700 hover:text-white">MYPAGE</p>
+                        </router-link>
                         <a @click="logout()"
                             class="block px-3 py-2 text-base font-medium rounded-md text-nav-navy hover:bg-gray-700 hover:text-white">LOGOUT</a>
                     </div>
@@ -112,6 +116,8 @@ import { storeToRefs } from 'pinia';
 const isDropdown = ref(false);
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore);
+
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function logout() { authStore.logout(); } // 로그아웃
 function toggleDropdown() { isDropdown.value = !isDropdown.value; } // 드롭다운 토글 함수
